@@ -10,6 +10,7 @@ use App\Http\Controllers\user\CustomerController;
 use App\Http\Controllers\user\InvoiceController;
 use App\Http\Controllers\user\StockController;
 use App\Http\Controllers\user\AddeduserController;
+use App\Http\Controllers\FormController;
 use App\Models\Product;
 use App\Models\Visitor;
 use Carbon\Carbon;
@@ -25,6 +26,8 @@ use Carbon\Carbon;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::post('/contact/form/submit', [FormController::class, 'contactFormSubmit'])
+    ->name('contact.form.submit');
 
 Route::get('/', function () {
 
@@ -64,6 +67,9 @@ Route::get('/', function () {
 
 Route::get('/products-by-category/{d_category}/{p_category}', [ProductController::class, 'getProductsByCategories'])
     ->name('products.by.categories');
+
+
+
 
 Auth::routes();
 

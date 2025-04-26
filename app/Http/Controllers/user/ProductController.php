@@ -136,20 +136,25 @@ class ProductController extends Controller
         // Handle image upload if provided
 
         if ($request->hasFile('image')) {
+            // Remove the previous image if it exists
+            if ($product->image && file_exists(public_path('images/products/' . $product->image))) {
+            unlink(public_path('images/products/' . $product->image));
+            }
+
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();        
             $location = public_path('images/products/' . $filename);
             // Ensure the directory exists  
             $directory = public_path('images/products');
             if (!file_exists($directory)) {
-                mkdir($directory, 0755, true);
+            mkdir($directory, 0755, true);
             }
             $image->move($directory, $filename);
             $product->image = $filename;
-                   
         }
         $product->save();
-        return response()->json(['success' => true, 'message' => 'Product updated successfully.']);
+        // return response()->json(['success' => true, 'message' => 'Product updated successfully.']);
+        return redirect()->route('user.product.index')->with('message', 'Product updated successfully.');
     }
 
     /**
